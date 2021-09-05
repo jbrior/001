@@ -7,18 +7,6 @@
 
 import UIKit
 
-struct Users {
-    let firstName: String
-    let lastName: String
-    let favoriteColor: String
-    
-    init(firstName: String, lastName: String, favoriteColor: String) {
-        self.firstName = firstName
-        self.lastName = lastName
-        self.favoriteColor = favoriteColor
-    }
-}
-
 struct Categories {
     let name: String
     

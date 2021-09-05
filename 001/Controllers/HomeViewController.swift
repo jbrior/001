@@ -11,18 +11,37 @@ class HomeViewController: UIViewController {
     
     private var enteredSearch: String!
     
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Amish Goods"
+        label.font = UIFont(name: "Avenir-Heavy", size: 50)
+        label.textColor = .systemIndigo
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private let subTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Lancaster, PA"
+        label.font = UIFont(name: "Avenir-Heavy", size: 25)
+        label.textColor = .gray
+        label.textAlignment = .center
+        return label
+    }()
+    
     private let searchLabel: UILabel = {
         let label = UILabel()
         label.text = "What are you searching for?"
         label.textColor = .white
         label.font = UIFont(name: "Avenir", size: 30)
         label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     private let searchBar: UITextField = {
         let bar = UITextField()
-        bar.backgroundColor = .white
+        bar.backgroundColor = .clear
         bar.layer.cornerRadius = 25
         bar.layer.borderColor = UIColor.link.cgColor
         bar.layer.borderWidth = 2
@@ -30,8 +49,12 @@ class HomeViewController: UIViewController {
         bar.font = UIFont(name: "Avenir", size: 25)
         bar.attributedPlaceholder = NSAttributedString(string: "Start typing here...",
                                                        attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
-        bar.textColor = .black
+        bar.textColor = .white
         bar.addTarget(self, action: #selector(editingStarted), for: .allEditingEvents)
+        bar.autocorrectionType = .no
+        bar.autocapitalizationType = .none
+        bar.returnKeyType = .continue
+        bar.clearButtonMode = .always
         return bar
     }()
     
@@ -80,12 +103,13 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addBackground()
-        title = "Amish Goods"
         navigationItem.backButtonTitle = "Back"
         
         searchBar.delegate = self
         
         // Add Subviews
+        view.addSubview(titleLabel)
+        view.addSubview(subTitleLabel)
         view.addSubview(searchLabel)
         view.addSubview(searchBar)
         view.addSubview(searchBtn)
@@ -95,7 +119,7 @@ class HomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //navigationController?.isNavigationBarHidden = true
+        navigationController?.isNavigationBarHidden = true
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: UIColor.systemIndigo,
@@ -111,7 +135,13 @@ class HomeViewController: UIViewController {
         
         let widthForObjects = view.width - 10
         
-        searchLabel.frame = CGRect(x: 0, y: 250, width: widthForObjects, height: 75)
+        titleLabel.frame = CGRect(x: 0, y: 65, width: widthForObjects, height: 50)
+        titleLabel.center.x = view.center.x
+        
+        subTitleLabel.frame = CGRect(x: 0, y: titleLabel.bottom + 10, width: widthForObjects, height: 30)
+        subTitleLabel.center.x = view.center.x
+        
+        searchLabel.frame = CGRect(x: 0, y: subTitleLabel.bottom + 25, width: widthForObjects, height: 75)
         searchLabel.center.x = view.center.x
         
         searchBar.frame = CGRect(x: 0, y: searchLabel.bottom + 10, width: widthForObjects, height: 50)
@@ -165,6 +195,10 @@ class HomeViewController: UIViewController {
         else{
             sender.setTitleColor(UIColor.white, for: .normal)
         }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        searchBar.endEditing(true)
     }
 }
 

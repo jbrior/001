@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class SearchViewController: UIViewController {
+    
+    let ref = Database.database().reference()
     
     var searchInput: String!
     
@@ -16,9 +19,16 @@ class SearchViewController: UIViewController {
         view.backgroundColor = .white
         
         guard let search = searchInput else {
+            print("no input passed")
             return
         }
         
         title = search.capitalized
+        
+        getDataFromFirebase()
+    }
+    
+    func getDataFromFirebase() {
+        
     }
 }
