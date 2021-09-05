@@ -13,7 +13,7 @@ class HomeViewController: UIViewController {
     
     private let searchLabel: UILabel = {
         let label = UILabel()
-        label.text = "What are you searching for? askdjfasklfja"
+        label.text = "What are you searching for?"
         label.textColor = .white
         label.font = UIFont(name: "Avenir", size: 30)
         label.textAlignment = .center
