@@ -103,7 +103,6 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addBackground()
-        navigationItem.backButtonTitle = "Back"
         
         searchBar.delegate = self
         
@@ -119,6 +118,7 @@ class HomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        navigationItem.backButtonTitle = "Back"
         navigationController?.isNavigationBarHidden = true
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.largeTitleTextAttributes = [
@@ -185,16 +185,6 @@ class HomeViewController: UIViewController {
     @objc private func didTapInfo() {
         let vc = InfoViewController()
         navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    @IBAction func colorChangingBtn(_ sender: UIButton){
-        sender.isSelected = !sender.isSelected
-        if sender.isSelected{
-            sender.setTitleColor(UIColor.blue, for: .normal)
-        }
-        else{
-            sender.setTitleColor(UIColor.white, for: .normal)
-        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
