@@ -115,6 +115,7 @@ class HomeViewController: UIViewController {
         view.addSubview(categoriesLabel)
         view.addSubview(categoriesBtn)
         view.addSubview(infoBtn)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
