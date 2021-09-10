@@ -19,6 +19,7 @@ class SearchViewController: UIViewController {
         view.backgroundColor = .white
         
         guard let search = searchInput else {
+            title = "{Title}"
             print("no input passed")
             return
         }

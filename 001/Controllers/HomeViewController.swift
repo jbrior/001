@@ -29,6 +29,12 @@ class HomeViewController: UIViewController {
         return label
     }()
     
+    private let lineLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .white
+        return label
+    }()
+    
     private let searchLabel: UILabel = {
         let label = UILabel()
         label.text = "What are you searching for?"
@@ -47,8 +53,6 @@ class HomeViewController: UIViewController {
         bar.layer.borderWidth = 2
         bar.textAlignment = .center
         bar.font = UIFont(name: "Avenir", size: 25)
-        bar.attributedPlaceholder = NSAttributedString(string: "Start typing here...",
-                                                       attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
         bar.textColor = .white
         bar.addTarget(self, action: #selector(editingStarted), for: .allEditingEvents)
         bar.autocorrectionType = .no
@@ -60,8 +64,8 @@ class HomeViewController: UIViewController {
     
     private let searchBtn: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .link
-        button.tintColor = .white
+        button.backgroundColor = .gray
+        button.setTitleColor(.lightGray, for: .normal)
         button.layer.cornerRadius = 25
         button.setTitle("Search", for: .normal)
         button.titleLabel?.font = UIFont(name: "Avenir", size: 25)
@@ -72,7 +76,7 @@ class HomeViewController: UIViewController {
     
     private let categoriesLabel: UILabel = {
         let label = UILabel()
-        label.text = "Or \n search by categories"
+        label.text = "Or \n search by categories".capitalized
         label.textColor = .white
         label.font = UIFont(name: "Avenir", size: 20)
         label.textAlignment = .center
@@ -109,6 +113,7 @@ class HomeViewController: UIViewController {
         // Add Subviews
         view.addSubview(titleLabel)
         view.addSubview(subTitleLabel)
+        view.addSubview(lineLabel)
         view.addSubview(searchLabel)
         view.addSubview(searchBar)
         view.addSubview(searchBtn)
@@ -126,21 +131,26 @@ class HomeViewController: UIViewController {
             NSAttributedString.Key.foregroundColor: UIColor.systemIndigo,
             NSAttributedString.Key.font: UIFont(name: "Avenir-Heavy", size: 50)!
         ]
+        setSearchBarPlaceholder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = false
+        searchBar.endEditing(true)
     }
     
     override func viewDidLayoutSubviews() {
         
         let widthForObjects = view.width - 10
         
-        titleLabel.frame = CGRect(x: 0, y: 65, width: widthForObjects, height: 50)
+        titleLabel.frame = CGRect(x: 0, y: 125, width: widthForObjects, height: 50)
         titleLabel.center.x = view.center.x
         
         subTitleLabel.frame = CGRect(x: 0, y: titleLabel.bottom + 10, width: widthForObjects, height: 30)
         subTitleLabel.center.x = view.center.x
+        
+        lineLabel.frame = CGRect(x: 0, y: subTitleLabel.bottom + 20, width: widthForObjects - 50, height: 2)
+        lineLabel.center.x = view.center.x
         
         searchLabel.frame = CGRect(x: 0, y: subTitleLabel.bottom + 25, width: widthForObjects, height: 75)
         searchLabel.center.x = view.center.x
@@ -163,11 +173,22 @@ class HomeViewController: UIViewController {
         infoBtn.addTarget(self, action: #selector(didTapInfo), for: .touchUpInside)
     }
     
+    private func setSearchBarPlaceholder() {
+        let searchPlaceholders: [String] = ["bread", "pies", "furniture", "produce", "meats"]
+        let placeholder = searchPlaceholders.randomElement()!.capitalized
+        searchBar.attributedPlaceholder = NSAttributedString(string: "\(placeholder)...",
+                                                       attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
+    }
+    
     @objc private func editingStarted() {
         guard let searchText = searchBar.text, !searchText.isEmpty else {
+            searchBtn.backgroundColor = .gray
+            searchBtn.setTitleColor(.lightGray, for: .normal)
             searchBtn.isEnabled = false
             return
         }
+        searchBtn.backgroundColor = .link
+        searchBtn.setTitleColor(.white, for: .normal)
         enteredSearch = searchText
         searchBtn.isEnabled = true
     }
