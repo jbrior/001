@@ -5,8 +5,6 @@
 //  Created by Jesse Brior on 9/1/21.
 //
 
-// testing source control
-
 import UIKit
 
 class HomeViewController: UIViewController {
